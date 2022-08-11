@@ -11,6 +11,7 @@ Patch2   : 0002-Makefile-quick-wrapper-for-waf.patch
 Summary  : media player
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
+Requires: ffmpeg-cuda-libs
 Requires: mpv-cuda-bin = %{version}-%{release}
 Requires: mpv-cuda-data = %{version}-%{release}
 Requires: mpv-cuda-lib = %{version}-%{release}
