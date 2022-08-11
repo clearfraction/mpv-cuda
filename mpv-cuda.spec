@@ -24,8 +24,6 @@ BuildRequires : SPIRV-Cross-dev
 BuildRequires : libX11-dev
 BuildRequires : libva-dev
 BuildRequires : mesa-dev 
-BuildRequires : ffmpeg-cuda-dev
-BuildRequires : nv-codec-headers
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(libass)
 BuildRequires : pkgconfig(libplacebo)
@@ -47,6 +45,8 @@ BuildRequires : SDL2-dev
 BuildRequires : LuaJIT-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : pkgconfig(libarchive)
+BuildRequires : nv-codec-headers
+BuildRequires : ffmpeg-cuda-dev
 
 # fonts-related
 BuildRequires : v4l-utils-dev fontconfig-dev fribidi-dev harfbuzz-dev libpng-dev
