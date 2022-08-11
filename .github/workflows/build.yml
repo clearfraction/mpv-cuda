@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Hotfix - download nv-codec-headers
+      - name: hotfix: download ffmpeg-cuda
         uses: dawidd6/action-download-artifact@v2
         with:
-          repo: clearfraction/nv-codec-headers
+          repo: clearfraction/ffmpeg-cuda
           workflow: build-core.yml
           check_artifacts: true
       - name: Download artifact
