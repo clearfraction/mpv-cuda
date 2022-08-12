@@ -62,7 +62,7 @@ Summary: bin components for the mpv package.
 Group: Binaries
 Requires: mpv-cuda-data = %{version}-%{release}
 Requires: mpv-cuda-license = %{version}-%{release}
-Requires: mpv-cuda-filemap = %{version}-%{release}
+#Requires: mpv-cuda-filemap = %{version}-%{release}
 
  
 %description bin
@@ -102,7 +102,7 @@ Summary: lib components for the mpv package.
 Group: Libraries
 Requires: mpv-cuda-data = %{version}-%{release}
 Requires: mpv-cuda-license = %{version}-%{release}
-Requires: mpv-cuda-filemap = %{version}-%{release}
+#Requires: mpv-cuda-filemap = %{version}-%{release}
 
  
 %description lib
