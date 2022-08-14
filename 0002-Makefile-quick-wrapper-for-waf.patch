@@ -18,7 +18,7 @@ index 0000000..af32891
 +.DEFAULT_GOAL: premake
 +
 +premake:
-+		$(PYTHON) ./waf configure --prefix=/usr --exec-prefix=/usr --bindir=/usr/bin --sysconfdir=/etc --datadir=/usr/share --includedir=/usr/include --libdir=/usr/lib64  --mandir=/usr/share/man --disable-static --enable-libmpv-shared --enable-x11 --enable-libplacebo --enable-sdl2 --enable-libarchive --enable-cuda-hwaccel
++		$(PYTHON) ./waf configure --prefix=/usr/local-cuda --exec-prefix=/usr/local-cuda --bindir=/usr/local-cuda/bin --sysconfdir=/etc --datadir=/usr/local-cuda/share --includedir=/usr/local-cuda/include --libdir=/usr/local-cuda/lib64  --mandir=/usr/local-cuda/share/man --disable-static --enable-libmpv-shared --enable-x11 --enable-libplacebo --enable-sdl2 --enable-libarchive --enable-cuda-hwaccel --enable-vdpau
 +install:
 +		$(PYTHON) ./waf install $*
 +clean:

@@ -1,4 +1,10 @@
-%global abi_package %{nil}
+%define cuda_prefix /usr/local-cuda
+%define cuda_bindir /usr/local-cuda/bin
+%define cuda_includedir /usr/local-cuda/include
+%define cuda_libdir /usr/local-cuda/lib64
+%define cuda_datadir /usr/local-cuda/share
+
+%define abi_package %{nil}
 %global gitdate 2022
 %global commit 813dfe19242bc7672470077cc37c373f92730e05
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
@@ -17,6 +23,7 @@ License  : GPL-2.0 LGPL-2.1
 Requires: ffmpeg-cuda-libs
 Requires: libXScrnSaver-lib
 Requires: libXpresent-lib
+Requires: libvdpau-lib
 Requires: mpv-cuda-bin = %{version}-%{release}
 Requires: mpv-cuda-data = %{version}-%{release}
 Requires: mpv-cuda-lib = %{version}-%{release}
@@ -29,6 +36,7 @@ BuildRequires : SPIRV-Cross-dev
 BuildRequires : libX11-dev
 BuildRequires : libXScrnSaver-dev
 BuildRequires : libXpresent-dev
+BuildRequires : libvdpau-dev
 BuildRequires : libva-dev
 BuildRequires : mesa-dev 
 BuildRequires : pkgconfig(alsa)
@@ -136,6 +144,8 @@ export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
+export PKG_CONFIG_PATH="/usr/local-cuda/lib64/pkgconfig"
+export LDFLAGS="-Wl,-rpath=/usr/local-cuda/lib64,-rpath=/opt/3rd-party/bundles/clearfraction/usr/local-cuda/lib64,-rpath=/opt/3rd-party/bundles/clearfraction/usr/lib64"
 export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
 export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
 export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
@@ -145,12 +155,13 @@ make  %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/package-licenses/mpv
-cp Copyright %{buildroot}/usr/share/package-licenses/mpv/Copyright
-cp LICENSE.GPL %{buildroot}/usr/share/package-licenses/mpv/LICENSE.GPL
-cp LICENSE.LGPL %{buildroot}/usr/share/package-licenses/mpv/LICENSE.LGPL
+mkdir -p %{buildroot}/usr/local-cuda/share/package-licenses/mpv
+cp Copyright %{buildroot}/usr/local-cuda/share/package-licenses/mpv/Copyright
+cp LICENSE.GPL %{buildroot}/usr/local-cuda/share/package-licenses/mpv/LICENSE.GPL
+cp LICENSE.LGPL %{buildroot}/usr/local-cuda/share/package-licenses/mpv/LICENSE.LGPL
 %make_install
-rm -f %{buildroot}/usr/share/man/man1/mpv.1
+rm -f %{buildroot}/usr/local-cuda/share/man/man1/mpv.1
+mv %{buildroot}%{cuda_prefix} %{buildroot}/usr/local
 
  
 %files
@@ -158,39 +169,39 @@ rm -f %{buildroot}/usr/share/man/man1/mpv.1
  
 %files bin
 %defattr(-,root,root,-)
-/usr/bin/mpv
+/usr/local/bin/mpv
  
 %files data
 %defattr(-,root,root,-)
-/usr/share/applications/mpv.desktop
-/usr/share/icons/hicolor/16x16/apps/mpv.png
-/usr/share/icons/hicolor/32x32/apps/mpv.png
-/usr/share/icons/hicolor/64x64/apps/mpv.png
-/usr/share/icons/hicolor/128x128/apps/mpv.png
-/usr/share/icons/hicolor/scalable/apps/mpv.svg
-/usr/share/icons/hicolor/symbolic/apps/mpv-symbolic.svg
-/usr/share/zsh/site-functions/_mpv
-/usr/share/bash-completion/completions/mpv
+/usr/local/share/applications/mpv.desktop
+/usr/local/share/icons/hicolor/16x16/apps/mpv.png
+/usr/local/share/icons/hicolor/32x32/apps/mpv.png
+/usr/local/share/icons/hicolor/64x64/apps/mpv.png
+/usr/local/share/icons/hicolor/128x128/apps/mpv.png
+/usr/local/share/icons/hicolor/scalable/apps/mpv.svg
+/usr/local/share/icons/hicolor/symbolic/apps/mpv-symbolic.svg
+/usr/local/share/zsh/site-functions/_mpv
+/usr/local/share/bash-completion/completions/mpv
  
 %files dev
 %defattr(-,root,root,-)
-/usr/include/mpv/client.h
-/usr/include/mpv/render.h
-/usr/include/mpv/render_gl.h
-/usr/include/mpv/stream_cb.h
-/usr/lib64/libmpv.so*
-/usr/lib64/pkgconfig/mpv.pc
+/usr/local/include/mpv/client.h
+/usr/local/include/mpv/render.h
+/usr/local/include/mpv/render_gl.h
+/usr/local/include/mpv/stream_cb.h
+/usr/local/lib64/libmpv.so*
+/usr/local/lib64/pkgconfig/mpv.pc
  
 %files doc
 %defattr(0644,root,root,0755)
-%doc /usr/share/doc/mpv/*
+%doc /usr/local/share/doc/mpv/*
  
 %files lib
 %defattr(-,root,root,-)
-/usr/lib64/libmpv.so.*
+/usr/local/lib64/libmpv.so.*
  
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/mpv/Copyright
-/usr/share/package-licenses/mpv/LICENSE.GPL
-/usr/share/package-licenses/mpv/LICENSE.LGPL
+/usr/local/share/package-licenses/mpv/Copyright
+/usr/local/share/package-licenses/mpv/LICENSE.GPL
+/usr/local/share/package-licenses/mpv/LICENSE.LGPL
