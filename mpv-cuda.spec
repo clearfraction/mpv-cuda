@@ -5,8 +5,8 @@
 %define cuda_datadir /usr/local-cuda/share
 
 %define abi_package %{nil}
-%global gitdate 2022
-%global commit 813dfe19242bc7672470077cc37c373f92730e05
+%global gitdate 20220816
+%global commit 813164cc07124aabfbc4aa3b8f9fe33fe222c77c
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
@@ -20,10 +20,8 @@ Patch2   : 0002-Makefile-quick-wrapper-for-waf.patch
 Summary  : media player
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
-Requires: ffmpeg-cuda-libs
-Requires: libXScrnSaver-lib
-Requires: libXpresent-lib
 Requires: libvdpau-lib
+Requires: ffmpeg-cuda-libs
 Requires: mpv-cuda-bin = %{version}-%{release}
 Requires: mpv-cuda-data = %{version}-%{release}
 Requires: mpv-cuda-lib = %{version}-%{release}
