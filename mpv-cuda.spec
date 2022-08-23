@@ -5,8 +5,8 @@
 %define cuda_datadir /usr/local-cuda/share
 
 %define abi_package %{nil}
-%global gitdate 20220816
-%global commit 813164cc07124aabfbc4aa3b8f9fe33fe222c77c
+%global gitdate 20220821
+%global commit 6c1f01d2841281fd594f8ce874b4113640c07553
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
@@ -16,7 +16,7 @@ URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
 #Source   : https://github.com/mpv-player/mpv/archive/refs/heads/master.zip 
 Patch1   : 0001-waf-add-waf-as-a-patch-for-ClearLinux.patch
-Patch2   : 0002-Makefile-quick-wrapper-for-waf.patch
+Patch2   : 0002-Makefile-quick-wrapper-for-waf-cuda.patch
 Summary  : media player
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
@@ -38,6 +38,8 @@ BuildRequires : libXv-dev
 BuildRequires : libvdpau-dev
 BuildRequires : libva-dev
 BuildRequires : mesa-dev 
+BuildRequires : nv-codec-headers
+BuildRequires : ffmpeg-cuda-dev
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(libass)
 BuildRequires : pkgconfig(libplacebo)
@@ -61,8 +63,6 @@ BuildRequires : SDL2-dev
 BuildRequires : LuaJIT-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : pkgconfig(libarchive)
-BuildRequires : nv-codec-headers
-BuildRequires : ffmpeg-cuda-dev
 
 # fonts-related
 BuildRequires : v4l-utils-dev fontconfig-dev fribidi-dev harfbuzz-dev libpng-dev
@@ -145,7 +145,7 @@ export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export PKG_CONFIG_PATH="/usr/local-cuda/lib64/pkgconfig"
+export PKG_CONFIG_PATH="/usr/local/lib64/pkgconfig"
 export LDFLAGS="-Wl,-rpath=/usr/local-cuda/lib64,-rpath=/opt/3rd-party/bundles/clearfraction/usr/local-cuda/lib64,-rpath=/opt/3rd-party/bundles/clearfraction/usr/lib64"
 export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
 export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -fstack-protector-strong -fzero-call-used-regs=used -mno-vzeroupper -mprefer-vector-width=256 "
