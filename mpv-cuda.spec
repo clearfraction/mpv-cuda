@@ -1,17 +1,11 @@
-%define cuda_prefix /usr/local-cuda
-%define cuda_bindir /usr/local-cuda/bin
-%define cuda_includedir /usr/local-cuda/include
-%define cuda_libdir /usr/local-cuda/lib64
-%define cuda_datadir /usr/local-cuda/share
-
 %define abi_package %{nil}
-%global gitdate 20220821
-%global commit 6c1f01d2841281fd594f8ce874b4113640c07553
+%global gitdate 20220829
+%global commit 0f30b0757fb969455119d83d3f29dec3d66f6c9c
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
 Version  : 0.34.1
-Release  : 101.%{shortcommit}
+Release  : 102.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
 #Source   : https://github.com/mpv-player/mpv/archive/refs/heads/master.zip 
@@ -162,7 +156,7 @@ cp LICENSE.GPL %{buildroot}/usr/local-cuda/share/package-licenses/mpv/LICENSE.GP
 cp LICENSE.LGPL %{buildroot}/usr/local-cuda/share/package-licenses/mpv/LICENSE.LGPL
 %make_install
 rm -f %{buildroot}/usr/local-cuda/share/man/man1/mpv.1
-mv %{buildroot}%{cuda_prefix} %{buildroot}/usr/local
+mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
 
  
 %files
