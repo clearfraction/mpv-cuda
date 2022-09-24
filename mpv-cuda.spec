@@ -177,6 +177,7 @@ mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
 /usr/local/share/icons/hicolor/symbolic/apps/mpv-symbolic.svg
 /usr/local/share/zsh/site-functions/_mpv
 /usr/local/share/bash-completion/completions/mpv
+/usr/local/share/metainfo/mpv.metainfo.xml
  
 %files dev
 %defattr(-,root,root,-)
