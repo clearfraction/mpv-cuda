@@ -1,11 +1,11 @@
 %define abi_package %{nil}
-%global gitdate 20220925
-%global commit 2b0736ed83a19ec31e0d4b3bf4b3882d7c69063d
+%global gitdate 20221001
+%global commit 2207236aaae54f32c1861c6fd77219e28139dc78
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
 Version  : 0.34.1
-Release  : 105.%{shortcommit}
+Release  : 106.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
 #Source   : https://github.com/mpv-player/mpv/archive/refs/heads/master.zip 
