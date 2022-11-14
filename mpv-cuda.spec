@@ -1,9 +1,9 @@
-%global gitdate 20221014
-%global commit dfb5b0c55fa442ca53208f6b38ad3885acf945f8
+%global gitdate 20221112
+%global commit 75d938912ddd50f5658d874c59e1b50e13b28bf1
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
-Version  : 0.34.1
+Version  : 0.35.0
 Release  : 107.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
@@ -56,6 +56,7 @@ BuildRequires : SDL2-dev
 BuildRequires : LuaJIT-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : pkgconfig(libarchive)
+BuildRequires : pipewire-dev
 
 # fonts-related
 BuildRequires : v4l-utils-dev fontconfig-dev fribidi-dev harfbuzz-dev libpng-dev
