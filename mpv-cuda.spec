@@ -31,7 +31,7 @@ BuildRequires : libXv-dev
 BuildRequires : libvdpau-dev
 BuildRequires : libva-dev
 BuildRequires : mesa-dev 
-BuildRequires : nv-codec-headers
+BuildRequires : nv-codec-headers-dev
 BuildRequires : ffmpeg-cuda-dev
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(libass)
