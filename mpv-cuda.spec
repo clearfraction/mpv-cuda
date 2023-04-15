@@ -1,5 +1,5 @@
-%global gitdate 20230228
-%global commit 022790a2b49e4d21cb803842cb54958cca9c732e
+%global gitdate 20230412
+%global commit c50f536bd1ac1f8154d2b1dcaccd25ab150b414a
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
