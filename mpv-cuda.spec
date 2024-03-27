@@ -1,9 +1,9 @@
-%global gitdate 20230723
-%global commit f4210f84906c3b00a65fba198c8127b6757b9350
+%global gitdate 20231121
+%global commit 818ce7c51a6b9179307950e919983e0909942098
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
-Version  : 0.36.0
+Version  : 0.37.0
 Release  : %{gitdate}.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
