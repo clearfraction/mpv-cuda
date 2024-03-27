@@ -1,15 +1,12 @@
-%global gitdate 20230723
-%global commit f4210f84906c3b00a65fba198c8127b6757b9350
+%global gitdate 20231121
+%global commit 818ce7c51a6b9179307950e919983e0909942098
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
-Version  : 0.36.0
+Version  : 0.37.0
 Release  : %{gitdate}.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
-#Source   : https://github.com/mpv-player/mpv/archive/refs/heads/master.zip 
-Patch1   : 0001-waf-add-waf-as-a-patch-for-ClearLinux.patch
-Patch2   : 0002-Makefile-quick-wrapper-for-waf-cuda.patch
 Summary  : media player
 Group    : Development/Tools
 License  : GPL-2.0 LGPL-2.1
@@ -20,6 +17,7 @@ Requires: mpv-cuda-data = %{version}-%{release}
 Requires: mpv-cuda-lib = %{version}-%{release}
 Requires: mpv-cuda-license = %{version}-%{release}
 #Requires: mpv-cuda-filemap = %%{version}-%%{release}
+BuildRequires : buildreq-meson
 BuildRequires : Vulkan-Headers-dev
 BuildRequires : Vulkan-Loader-dev
 BuildRequires : SPIRV-Tools-dev
@@ -31,7 +29,6 @@ BuildRequires : libXv-dev
 BuildRequires : libvdpau-dev
 BuildRequires : libva-dev
 BuildRequires : mesa-dev 
-BuildRequires : nv-codec-headers-dev
 BuildRequires : ffmpeg-cuda-dev
 BuildRequires : pkgconfig(alsa)
 BuildRequires : pkgconfig(libass)
@@ -57,6 +54,8 @@ BuildRequires : LuaJIT-dev
 BuildRequires : libjpeg-turbo-dev
 BuildRequires : pkgconfig(libarchive)
 BuildRequires : pipewire-dev
+BuildRequires : shaderc-dev uchardet-dev zimg-dev SPIRV-Headers-dev
+
 
 # fonts-related
 BuildRequires : v4l-utils-dev fontconfig-dev fribidi-dev harfbuzz-dev libpng-dev
@@ -129,8 +128,15 @@ license components for the mpv package.
 
 %prep
 %setup -q -n mpv-%{commit}
-%patch1 -p1
-%patch2 -p1
+git config --global --add safe.directory /home
+# newest nv-codev-headers
+unset https_proxy
+git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
+pushd nv-codec-headers
+    make
+    make PREFIX=/usr LIBDIR=lib64 install
+popd
+
 
 
 %build
@@ -145,18 +151,89 @@ export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=a
 export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
 export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
 export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
-make  %{?_smp_mflags}
+export LANG=C.UTF-8
+export GCC_IGNORE_WERROR=1
+export AR=gcc-ar
+export RANLIB=gcc-ranlib
+export NM=gcc-nm
+export LDFLAGS="-Wl,-rpath=/opt/3rd-party/bundles/clearfraction/usr/lib64,-rpath=/usr/lib64 "
+export CFLAGS="$CFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FCFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export FFLAGS="$FFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+export CXXFLAGS="$CXXFLAGS -O3 -Ofast -falign-functions=32 -ffat-lto-objects -flto=auto -fno-semantic-interposition -mno-vzeroupper -mprefer-vector-width=256 "
+meson --libdir=lib64 --prefix=/usr/local-cuda --buildtype=plain \
+      -Dalsa=enabled \
+      -Dbuild-date=false \
+      -Dcaca=disabled \
+      -Dcdda=disabled \
+      -Dcplayer=true \
+      -Dcplugins=enabled \
+      -Dcuda-hwaccel=enabled \
+      -Dcuda-interop=enabled \
+      -Ddmabuf-wayland=enabled \
+      -Ddrm=enabled \
+      -Ddvbin=enabled \
+      -Ddvdnav=disabled \
+      -Degl-drm=enabled \
+      -Degl-wayland=enabled \
+      -Degl-x11=enabled \
+      -Degl=enabled \
+      -Dgbm=enabled \
+      -Dgl-x11=enabled \
+      -Dgl=enabled \
+      -Dhtml-build=disabled \
+      -Dpdf-build=disabled \
+      -Diconv=enabled \
+      -Djack=disabled \
+      -Djavascript=disabled \
+      -Djpeg=enabled \
+      -Dlcms2=disabled \
+      -Dlibarchive=enabled \
+      -Dlibavdevice=enabled \
+      -Dlibbluray=disabled \
+      -Dlibmpv=true \
+      -Dlua=enabled \
+      -Dmanpage-build=disabled \
+      -Dopenal=disabled \
+      -Dopensles=disabled \
+      -Doss-audio=disabled \
+      -Dpipewire=enabled \
+      -Dplain-gl=enabled \
+      -Dpulse=enabled \
+      -Drubberband=disabled \
+      -Dsdl2-audio=disabled \
+      -Dsdl2-gamepad=disabled \
+      -Dsdl2-video=disabled \
+      -Dsdl2=disabled \
+      -Dshaderc=enabled \
+      -Dsndio=disabled \
+      -Dspirv-cross=enabled \
+      -Duchardet=enabled \
+      -Dvaapi-drm=enabled \
+      -Dvaapi-wayland=enabled \
+      -Dvaapi-x11=enabled \
+      -Dvaapi=enabled \
+      -Dvapoursynth=disabled \
+      -Dvdpau-gl-x11=disabled \
+      -Dvdpau=disabled \
+      -Dvector=enabled \
+      -Dvulkan-interop=enabled \
+      -Dvulkan=enabled \
+      -Dwayland=enabled \
+      -Dwerror=false \
+      -Dx11=enabled \
+      -Dxv=enabled \
+      -Dzimg=enabled \
+      -Dzlib=enabled      builddir
 
+ninja -v -C builddir
+      
 
 %install
-rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/local-cuda/share/package-licenses/mpv
-cp Copyright %{buildroot}/usr/local-cuda/share/package-licenses/mpv/Copyright
-cp LICENSE.GPL %{buildroot}/usr/local-cuda/share/package-licenses/mpv/LICENSE.GPL
-cp LICENSE.LGPL %{buildroot}/usr/local-cuda/share/package-licenses/mpv/LICENSE.LGPL
-%make_install
-rm -f %{buildroot}/usr/local-cuda/share/man/man1/mpv.1
+DESTDIR=%{buildroot} ninja -C builddir install
+rm -rvf %{buildroot}/usr/local-cuda/share/doc %{buildroot}/usr/local-cuda/etc
 mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
+
 
  
 %files
@@ -190,7 +267,6 @@ mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
  
 %files doc
 %defattr(0644,root,root,0755)
-%doc /usr/local/share/doc/mpv/*
  
 %files lib
 %defattr(-,root,root,-)
@@ -198,6 +274,3 @@ mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
  
 %files license
 %defattr(0644,root,root,0755)
-/usr/local/share/package-licenses/mpv/Copyright
-/usr/local/share/package-licenses/mpv/LICENSE.GPL
-/usr/local/share/package-licenses/mpv/LICENSE.LGPL
