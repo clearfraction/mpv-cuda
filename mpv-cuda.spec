@@ -1,9 +1,9 @@
-%global gitdate 20231121
-%global commit 818ce7c51a6b9179307950e919983e0909942098
+%global gitdate 20240418
+%global commit 02254b92dd237f03aa0a151c2a68778c4ea848f9
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
-Version  : 0.37.0
+Version  : 0.38.0
 Release  : %{gitdate}.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
@@ -205,9 +205,9 @@ meson --libdir=lib64 --prefix=/usr/local-cuda --buildtype=plain \
       -Dsdl2-gamepad=disabled \
       -Dsdl2-video=disabled \
       -Dsdl2=disabled \
-      -Dshaderc=enabled \
+      -Dshaderc=disabled \
       -Dsndio=disabled \
-      -Dspirv-cross=enabled \
+      -Dspirv-cross=disabled \
       -Duchardet=enabled \
       -Dvaapi-drm=enabled \
       -Dvaapi-wayland=enabled \
