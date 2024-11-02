@@ -219,7 +219,6 @@ meson --libdir=lib64 --prefix=/usr/local-cuda --buildtype=plain \
       -Dvdpau-gl-x11=disabled \
       -Dvdpau=disabled \
       -Dvector=enabled \
-      -Dvulkan-interop=enabled \
       -Dvulkan=enabled \
       -Dwayland=enabled \
       -Dwerror=false \
