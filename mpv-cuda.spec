@@ -1,5 +1,5 @@
-%global gitdate 20240418
-%global commit 02254b92dd237f03aa0a151c2a68778c4ea848f9
+%global gitdate 20240930
+%global commit a0fba7be57f3822d967b04f0f6b6d6341e7516e7
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
@@ -55,6 +55,8 @@ BuildRequires : libjpeg-turbo-dev
 BuildRequires : pkgconfig(libarchive)
 BuildRequires : pipewire-dev
 BuildRequires : shaderc-dev uchardet-dev zimg-dev SPIRV-Headers-dev
+BuildRequires : pkgconfig(vapoursynth)
+BuildRequires : pkgconfig(vapoursynth-script)
 
 
 # fonts-related
