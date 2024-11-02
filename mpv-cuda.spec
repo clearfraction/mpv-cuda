@@ -3,7 +3,7 @@
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 Name     : mpv-cuda
-Version  : 0.38.0
+Version  : 0.39.0
 Release  : %{gitdate}.%{shortcommit}
 URL      : https://github.com/mpv-player/mpv
 Source0  : %{url}/archive/%{commit}/mpv-%{shortcommit}.tar.gz
