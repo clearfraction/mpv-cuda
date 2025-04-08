@@ -257,7 +257,6 @@ mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
 /usr/local/share/icons/hicolor/symbolic/apps/mpv-symbolic.svg
 /usr/local/share/zsh/site-functions/_mpv
 /usr/local/share/bash-completion/completions/mpv
-/usr/share/fish/vendor_completions.d/mpv.fish
 /usr/local/share/metainfo/mpv.metainfo.xml
  
 %files dev
