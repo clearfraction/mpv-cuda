@@ -133,8 +133,9 @@ license components for the mpv package.
 git config --global --add safe.directory /home
 # newest nv-codev-headers
 unset https_proxy
-git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git
-pushd nv-codec-headers
+curl -LO https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec-headers-13.0.19.0.tar.gz
+tar xf nv-codec-headers-13.0.19.0.tar.gz && rm -rf *.tar.gz 
+pushd nv-codec-headers-*
     make
     make PREFIX=/usr LIBDIR=lib64 install
 popd
