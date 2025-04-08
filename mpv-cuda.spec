@@ -258,6 +258,7 @@ mv %{buildroot}/usr/local-cuda %{buildroot}/usr/local
 /usr/local/share/zsh/site-functions/_mpv
 /usr/local/share/bash-completion/completions/mpv
 /usr/local/share/metainfo/mpv.metainfo.xml
+/usr/local/share/fish/vendor_completions.d/mpv.fish
  
 %files dev
 %defattr(-,root,root,-)
