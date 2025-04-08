@@ -57,6 +57,7 @@ BuildRequires : pipewire-dev
 BuildRequires : shaderc-dev uchardet-dev zimg-dev SPIRV-Headers-dev
 BuildRequires : pkgconfig(vapoursynth)
 BuildRequires : pkgconfig(vapoursynth-script)
+BuildRequires : libdisplay-info-dev
 
 
 # fonts-related
